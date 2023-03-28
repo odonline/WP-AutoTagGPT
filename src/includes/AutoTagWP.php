@@ -15,7 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class AutoTagWP {
     const API_ENDPOINT = 'https://api.openai.com/v1/completions';
-    //const API_KEY = 'YOUR_API_KEY_HERE';
     const MAX_TOKENS = 100;
     const TEMPERATURE = 0.5;
     const FRECUENCY_PENALTY = 0.8;
@@ -116,6 +115,10 @@ class AutoTagWP {
         <input type="checkbox" id="autotagwp-people" name="autotagwp-people" value="1">
         <label for="personas">Personas</label>
     </div>
+    <div>
+        <input type="checkbox" id="autotagwp-ent" name="autotagwp-ent" value="1">
+        <label for="personas">Personas</label>
+    </div>
 
     <button class="button button-primary autotagwp-button" data-nonceid="<?php echo esc_attr(wp_create_nonce('autotagwp_autotag_post')); ?>" data-postid="<?php echo esc_attr($post_id); ?>">Auto-Tag Post</button>
     <?php
@@ -125,14 +128,19 @@ class AutoTagWP {
         if (!current_user_can('edit_post', $_POST['post_id'])) {
             wp_send_json_error('Unauthorized');
         }
-    
+
+        $addCountry = "true" == $_POST['countries']? "top 3 countries, ":"";
+        $addCity   = "true" == $_POST['cities']? "top 3 cities, ":"";
+        $addPeople  = "true" == $_POST['people']? "top 3 person names, ":"";
+        $addEnterprises  = "true" == $_POST['people']? "top 3 enterprises, ":"";
+
         // Get the text content of the post
         $text = (wp_strip_all_tags(get_post_field('post_content', $_POST['post_id'])));
         $text = preg_replace('/\s+/',' ', $text);
-        $prompt = "Extract top 3 cities, top 3 countries, top 3 person names and top 3 enterprises, joined all values as a coma separated values and nothing more, omit any extra text in the response from this text:\n\n" . $text;
+        $prompt = "Extract $addCountry $addCity $addPeople $addEnterprises, joined all values as a coma separated values and nothing more, omit any extra text in the response from this text:\n\n" . $text;
 
-        //wp_send_json_error($prompt);
-        //die();
+        wp_send_json_error($prompt);
+        die();
     
         // Call the OpenAI API to generate tags
         $response = wp_remote_post(self::API_ENDPOINT, array(

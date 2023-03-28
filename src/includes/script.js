@@ -4,6 +4,7 @@ jQuery(document).ready(function ($) {
     var countries = $('input[name="autotagwp-countries"]').prop('checked');
     var cities = $('input[name="autotagwp-cities"]').prop('checked');
     var people = $('input[name="autotagwp-people"]').prop('checked');
+    var ent = $('input[name="autotagwp-ent"]').prop('checked');
     var data = {
       action: 'autotagwp_autotag_post',
       post_id: post_id,

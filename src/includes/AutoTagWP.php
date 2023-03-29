@@ -104,20 +104,20 @@ class AutoTagWP {
         $post_id = get_the_ID();
     ?>
     <div>
-        <input type="checkbox" id="autotagwp-countries" name="autotagwp-countries" value="1">
-        <label for="paises">Paises</label>
+        <input type="checkbox" id="autotagwp-countries" name="autotagwp-countries" value="1" checked >
+        <label for="autotagwp-countries">Paises</label>
     </div>
     <div>
-        <input type="checkbox" id="autotagwp-cities" name="autotagwp-cities" value="1">
-        <label for="ciudades">Ciudades</label>
+        <input type="checkbox" id="autotagwp-cities" name="autotagwp-cities" value="1" checked>
+        <label for="autotagwp-cities">Ciudades</label>
     </div>
     <div>
-        <input type="checkbox" id="autotagwp-people" name="autotagwp-people" value="1">
-        <label for="personas">Personas</label>
+        <input type="checkbox" id="autotagwp-people" name="autotagwp-people" value="1" checked>
+        <label for="autotagwp-people">Personas</label> 
     </div>
     <div>
         <input type="checkbox" id="autotagwp-ent" name="autotagwp-ent" value="1">
-        <label for="personas">Personas</label>
+        <label for="autotagwp-ent">Empresas</label>
     </div>
 
     <button class="button button-primary autotagwp-button" data-nonceid="<?php echo esc_attr(wp_create_nonce('autotagwp_autotag_post')); ?>" data-postid="<?php echo esc_attr($post_id); ?>">Auto-Tag Post</button>
@@ -132,12 +132,12 @@ class AutoTagWP {
         $addCountry = "true" == $_POST['countries']? "top 3 countries, ":"";
         $addCity   = "true" == $_POST['cities']? "top 3 cities, ":"";
         $addPeople  = "true" == $_POST['people']? "top 3 person names, ":"";
-        $addEnterprises  = "true" == $_POST['people']? "top 3 enterprises, ":"";
+        $addEnterprises  = "true" == $_POST['enterprise']? "top 3 enterprises, ":"";
 
         // Get the text content of the post
         $text = (wp_strip_all_tags(get_post_field('post_content', $_POST['post_id'])));
         $text = preg_replace('/\s+/',' ', $text);
-        $prompt = "Extract $addCountry $addCity $addPeople $addEnterprises, joined all values as a coma separated values and nothing more, omit any extra text in the response from this text:\n\n" . $text;
+        $prompt = "Extract $addCountry $addCity $addPeople $addEnterprises joined all values as a coma separated values and nothing more, omit any extra text in the response from this text:\n\n" . $text;
 
         wp_send_json_error($prompt);
         die();

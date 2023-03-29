@@ -11,6 +11,7 @@ jQuery(document).ready(function ($) {
       countries: countries,
       cities: cities,
       people: people,
+      enterprise: ent,
       _wpnonce: $(this).data('nonceid')
     };
     $.post(ajaxurl, data, function (response) {
